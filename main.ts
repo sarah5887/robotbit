@@ -1,5 +1,6 @@
 function TURN_LEFT () {
     pins.servoSetPulse(AnalogPin.P8, 1300)
+    control.waitMicros(20000)
 }
 input.onButtonPressed(Button.A, function () {
     FORWARD()
@@ -15,18 +16,22 @@ function MOVE_BACKWARD () {
     control.waitMicros(20000)
 }
 input.onButtonPressed(Button.AB, function () {
-	
+    STOP()
 })
 input.onButtonPressed(Button.B, function () {
     MOVE_BACKWARD()
 })
 function TURN_RIGHT () {
     pins.servoSetPulse(AnalogPin.P8, 1300)
+    control.waitMicros(20000)
 }
 function FORWARD () {
     pins.servoSetPulse(AnalogPin.P8, 1700)
     pins.servoSetPulse(AnalogPin.P13, 1300)
     control.waitMicros(20000)
+}
+function sensor () {
+	
 }
 basic.showIcon(IconNames.Heart)
 basic.forever(function () {
