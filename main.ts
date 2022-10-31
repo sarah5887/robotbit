@@ -1,7 +1,24 @@
 function TURN_LEFT () {
+    pins.servoSetPulse(AnalogPin.P13, 1300)
     pins.servoSetPulse(AnalogPin.P8, 1300)
-    control.waitMicros(20000)
 }
+radio.onReceivedNumber(function (receivedNumber) {
+    if (receivedNumber == 0) {
+        MOVE_BACKWARD()
+    }
+    if (receivedNumber == 0) {
+        FORWARD()
+    }
+    if (receivedNumber == 0) {
+        STOP()
+    }
+    if (receivedNumber == 0) {
+        TURN_RIGHT()
+    }
+    if (receivedNumber == 0) {
+        TURN_LEFT()
+    }
+})
 input.onButtonPressed(Button.A, function () {
     FORWARD()
 })
@@ -22,8 +39,8 @@ input.onButtonPressed(Button.B, function () {
     MOVE_BACKWARD()
 })
 function TURN_RIGHT () {
-    pins.servoSetPulse(AnalogPin.P8, 1300)
-    control.waitMicros(20000)
+    pins.servoSetPulse(AnalogPin.P13, 1700)
+    pins.servoSetPulse(AnalogPin.P8, 1700)
 }
 function FORWARD () {
     pins.servoSetPulse(AnalogPin.P8, 1700)
@@ -31,9 +48,28 @@ function FORWARD () {
     control.waitMicros(20000)
 }
 function sensor () {
-	
+    DISTANCE = pins.pulseIn(DigitalPin.P2, PulseValue.High) / 58
+    pins.digitalWritePin(DigitalPin.P1, 0)
+    control.waitMicros(4)
+    pins.digitalWritePin(DigitalPin.P1, 1)
+    control.waitMicros(4)
+    pins.digitalWritePin(DigitalPin.P1, 0)
 }
-basic.showIcon(IconNames.Heart)
+let DISTANCE = 0
+radio.setGroup(1)
+basic.showLeds(`
+    # . . . .
+    . # # # .
+    . # # . .
+    . # . # .
+    . . . . #
+    `)
+DISTANCE = 0
 basic.forever(function () {
-	
+    sensor()
+    if (DISTANCE < 5) {
+        MOVE_BACKWARD()
+        control.waitMicros(5000)
+        TURN_LEFT()
+    }
 })
