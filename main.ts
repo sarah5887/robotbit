@@ -3,19 +3,19 @@ function TURN_LEFT () {
     pins.servoSetPulse(AnalogPin.P8, 1300)
 }
 radio.onReceivedNumber(function (receivedNumber) {
-    if (receivedNumber == 0) {
+    if (receivedNumber == 1) {
         MOVE_BACKWARD()
     }
-    if (receivedNumber == 0) {
+    if (receivedNumber == 2) {
         FORWARD()
     }
-    if (receivedNumber == 0) {
+    if (receivedNumber == 3) {
         STOP()
     }
-    if (receivedNumber == 0) {
+    if (receivedNumber == 4) {
         TURN_RIGHT()
     }
-    if (receivedNumber == 0) {
+    if (receivedNumber == 5) {
         TURN_LEFT()
     }
 })
@@ -56,17 +56,19 @@ function sensor () {
     pins.digitalWritePin(DigitalPin.P1, 0)
 }
 let DISTANCE = 0
-radio.setGroup(1)
+radio.setGroup(12)
 basic.showLeds(`
-    # . . . .
-    . # # # .
+    # # . . .
     . # # . .
-    . # . # .
-    . . . . #
+    . # # # .
+    # # # # #
+    # . . # #
     `)
 DISTANCE = 0
 basic.forever(function () {
-    sensor()
+    for (let index = 0; index < 4; index++) {
+        sensor()
+    }
     if (DISTANCE < 5) {
         MOVE_BACKWARD()
         control.waitMicros(5000)
