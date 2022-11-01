@@ -48,12 +48,12 @@ function FORWARD () {
     control.waitMicros(20000)
 }
 function sensor () {
-    DISTANCE = pins.pulseIn(DigitalPin.P2, PulseValue.High) / 58
     pins.digitalWritePin(DigitalPin.P1, 0)
     control.waitMicros(2)
     pins.digitalWritePin(DigitalPin.P1, 1)
     control.waitMicros(10)
     pins.digitalWritePin(DigitalPin.P1, 0)
+    DISTANCE = pins.pulseIn(DigitalPin.P2, PulseValue.High) / 58
 }
 let DISTANCE = 0
 radio.setGroup(12)
@@ -67,7 +67,6 @@ basic.showLeds(`
 DISTANCE = 0
 basic.forever(function () {
     sensor()
-    basic.showNumber(DISTANCE)
     if (DISTANCE < 5) {
         MOVE_BACKWARD()
         control.waitMicros(5000)
