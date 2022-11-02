@@ -67,9 +67,12 @@ basic.showLeds(`
 DISTANCE = 0
 basic.forever(function () {
     sensor()
-    if (DISTANCE < 5) {
-        MOVE_BACKWARD()
-        control.waitMicros(5000)
-        TURN_LEFT()
+    for (let index = 0; index < 4; index++) {
+        if (DISTANCE < 4) {
+        	
+        }
+    }
+    if (true) {
+    	
     }
 })
